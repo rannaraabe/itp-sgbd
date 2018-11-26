@@ -39,7 +39,7 @@ int criar_tabela(FILE *arq){
 		printf("\nOpa! Erro ao tentar abrir o arquivo!\n");
 		return 0;
 	} else {
-		printf("\nNome coluna da chave primaria:\n");
+		printf("\nInsira o nome para a coluna da chave primaria:\n");
 		scanf("%s", chave_primaria);
 
 		//identificacao das colunas no arquivo
@@ -52,12 +52,12 @@ int criar_tabela(FILE *arq){
                 	fprintf(arquivo, "%d ", valor_chave);
 			
 			//nome da coluna
-			printf("\nNome coluna: \n");
+			printf("\nInsira o nome: \n");
 			scanf("%s", &tabela.nome);
 			fprintf(arquivo, "%s ", &tabela.nome);
 
 			//tipo do dado
-			printf("Tipo de dado: \n");
+			printf("Insira o tipo de dado: \n");
 			scanf("%s", &tabela.tipo_dado);
 
 			//caso string	
