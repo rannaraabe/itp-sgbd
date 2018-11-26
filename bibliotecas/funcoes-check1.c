@@ -14,8 +14,8 @@ typedef struct{
 int criar_tabela(FILE *arq){
 	//declarando variaveis
 	int condicao = 1;
-	char chave_primaria[15];
 	int valor_chave = 0;
+	char chave_primaria[15];
 	dadosTabela tabela;
 
 	//nome tabela
@@ -39,15 +39,18 @@ int criar_tabela(FILE *arq){
 		printf("\nOpa! Erro ao tentar abrir o arquivo!\n");
 		return 0;
 	} else {
-		//chave primaria da tabela
-		printf("\nInsira nome da chave primaria: \n");
-		scanf("%s", &chave_primaria);
+		printf("\nNome coluna da chave primaria:\n");
+		scanf("%s", chave_primaria);
 
-		printf("Insira o valor da chave: \n");
-		scanf("%d", &valor_chave);
-		fprintf(arquivo, "%s int %d\n", &chave_primaria, valor_chave);
+		//identificacao das colunas no arquivo
+		fprintf(arquivo, "%s nome tipo valor\n", chave_primaria);
+		fprintf(arquivo, "--------------------\n");
 
 		while(condicao!=0){
+			//chave primaria da tabela
+                	valor_chave++;
+                	fprintf(arquivo, "%d ", valor_chave);
+			
 			//nome da coluna
 			printf("\nNome coluna: \n");
 			scanf("%s", &tabela.nome);
