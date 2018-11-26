@@ -14,6 +14,10 @@ typedef struct{
 int criar_linha_tabela(FILE *arq){
 	int condicao = 1;
 	dadosTabela tabela;
+	int valor_chave = 0;
+
+	char c, letra = '\n';
+	int vezes = 0;
 
 	//variaveis para a chave na hora de pegar o valor do arquivo e comparar
 	char nomeChave[15], tipoChave[4];
@@ -40,14 +44,29 @@ int criar_linha_tabela(FILE *arq){
 		printf("\nOpa! Erro ao tentar abrir o arquivo!\n");
 		return 0;
 	} else {
+		//pegando o ultimo valor da chave para incrementar		
+		while(fread(&c, sizeof(char), 1, arquivo)) {
+			if(c == letra) {
+				vezes++;
+			}
+		}
+
+		//diminuindo as duas primeiras linhas do arquivo
+		vezes = vezes-2;
+		valor_chave = vezes;
+
 		while(condicao!=0){
+			//chave primaria da tabela
+			valor_chave++;
+			fprintf(arquivo, "%d ", valor_chave);
+
 			//nome da coluna
-			printf("\nNome coluna: \n");			
+			printf("\nInsira o nome da nova linha: \n");			
 			scanf("%s", &tabela.nome);
 			fprintf(arquivo, "%s ", &tabela.nome);
 
 			//tipo do dado
-			printf("Tipo de dado: \n");
+			printf("Insira o tipo de dado: \n");
 			scanf("%s", &tabela.tipo_dado);
 
 			//caso string
@@ -80,16 +99,13 @@ int criar_linha_tabela(FILE *arq){
 				do{
 					printf("Insira o valor:\n");
 					scanf("%d", &valor_i);
-
-					//pegando os valores da chave primaria do arquivo para comparar
-					rewind(arquivo);
-					fscanf(arquivo, "%s %s %d", nomeChave, tipoChave, &valorChave);
-
-					if(valor_i==valorChave){
-						printf("\nOpa! Conflito de valores.\nA coluna '%s' nao pode ter o mesmo valor da chave primaria! Tente novamente!\n", tabela.nome);
+					
+					if(valor_i<=valor_chave){
+						printf("\nOpa! Nao pode inserir um valor de chave! Tente novamente\n");
 					}
 
-				} while(valor_i==valorChave);
+
+				} while(valor_i<=valor_chave);
 
 				fprintf(arquivo, "%d\n", valor_i);
 
@@ -99,20 +115,16 @@ int criar_linha_tabela(FILE *arq){
 				fprintf(arquivo, "%s ", &tabela.tipo_dado);
 
 				float valor_f;
-
+				
 				do{
 					printf("Insira o valor:\n");
 					scanf("%f", &valor_f);
 
-					//pegando os valores da chave primaria do arquivo para comparar
-					rewind(arquivo);
-					fscanf(arquivo, "%s %s %d", nomeChave, tipoChave, &valorChave);
+					if(valor_f<=valor_chave){
+                                                printf("\nOpa! Nao pode inserir um valor de chave! Tente novamente\n");
+                                        }
 
-					if(valor_f==valorChave){
-						printf("\nOpa! Conflito de valores.\nA coluna '%s' nao pode ter o mesmo valor da chave primaria! Tente novamente!\n", tabela.nome);
-					}
-
-				} while(valor_f==valorChave);
+				} while(valor_f<=valor_chave);
 
 				fprintf(arquivo, "%f\n", valor_f);
 
@@ -127,15 +139,11 @@ int criar_linha_tabela(FILE *arq){
 					printf("Insira o valor:\n");
 					scanf("%lf", &valor_d);
 
-					//pegando os valores da chave primaria do arquivo para comparar
-					rewind(arquivo);
-					fscanf(arquivo, "%s %s %d", nomeChave, tipoChave, &valorChave);
+					if(valor_d<=valor_chave){
+                                                printf("\nOpa! Nao pode inserir um valor de chave! Tente novamente\n");
+                                        }
 
-					if(valor_d==valorChave){
-						printf("\nOpa! Conflito de valores.\nA coluna '%s' nao pode ter o mesmo valor da chave primaria! Tente novamente!\n", tabela.nome);
-					}
-
-				} while(valor_d==valorChave);
+				} while(valor_d<=valor_chave);
 
 				fprintf(arquivo, "%lf\n", valor_d);
 
@@ -198,4 +206,3 @@ int listar_dados_tabela(FILE *arq){
 
 	return 1;
 }
-
