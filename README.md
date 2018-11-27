@@ -1,7 +1,9 @@
 # SGBD
 SGBD é um Sistema de Gerenciamento de Banco de Dados simplificado baseado no modelo relacional.
 
-## Operações:
+*Não é o objetivo desse projeto criar um SGBD para ser utilizado em produção por sistemas de informação, mas “apenas” explorar os conceitos abordados nas disciplinas ITP/PTP.*
+
+## Funções do SGBD:
 O SBGD realiza as seguintes operações:
 1. Criar um tabela
 2. Listar todas as tabelas
@@ -21,5 +23,3 @@ O SBGD realiza as seguintes operações:
 Para o SGBD funcionar basta excecutar no terminal linux o seguinte comando:
 
 `<gcc main.c bibliotecas/funcoes-check1.c bibliotecas/funcoes-check2.c bibliotecas/funcoes-check3.c bibliotecas/funcoes-check4.c -o ex -g -W>`
-
-*Não é o objetivo desse projeto criar um SGBD para ser utilizado em produção por sistemas de informação, mas “apenas” explorar os conceitos abordados nas disciplinas ITP/PTP.*
