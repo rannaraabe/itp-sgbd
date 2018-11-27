@@ -13,8 +13,7 @@ typedef struct{
 //funcao criar tabela
 int criar_tabela(FILE *arq){
 	//declarando variaveis
-	int condicao = 1;
-	int valor_chave = 0;
+	int condicao = 1, valor_chave = 0, cont_coluna = 1;
 	char chave_primaria[15];
 	dadosTabela tabela;
 
@@ -39,111 +38,92 @@ int criar_tabela(FILE *arq){
 		printf("\nOpa! Erro ao tentar abrir o arquivo!\n");
 		return 0;
 	} else {
+		//chave primaria
 		printf("\nInsira o nome para a coluna da chave primaria:\n");
 		scanf("%s", chave_primaria);
 
-		//identificacao das colunas no arquivo
-		fprintf(arquivo, "%s nome tipo valor\n", chave_primaria);
-		fprintf(arquivo, "--------------------\n");
+		//valor chave primaria
+		valor_chave++;
+		fprintf(arquivo, "%d ", valor_chave);
 
+		//adicionando colunas
 		while(condicao!=0){
-			//chave primaria da tabela
-                	valor_chave++;
-                	fprintf(arquivo, "%d ", valor_chave);
-			
 			//nome da coluna
-			printf("\nInsira o nome: \n");
+			printf("\nInsira o nome da coluna %d: \n", cont_coluna);
 			scanf("%s", &tabela.nome);
-			fprintf(arquivo, "%s ", &tabela.nome);
 
-			//tipo do dado
-			printf("Insira o tipo de dado: \n");
+			//tipo de dado: para conferir se o usuario vai inserir o tipo certo
+			printf("Tipo de dado: \n");
 			scanf("%s", &tabela.tipo_dado);
-
-			//caso string	
-			if(!strcmp(tabela.tipo_dado, "string")){       
-				fprintf(arquivo, "%s ", &tabela.tipo_dado);
-
+			//caso string
+			if(!strcmp(tabela.tipo_dado, "string")){
 				//quando sair do if, o vetor eh desalocado
 				char valor_s[25];
-				printf("Insira o valor: *sem espacos!*\n");
+				printf("Insira o valor da coluna %s: *sem espacos!*\n", tabela.nome);
 				scanf("%s", valor_s);
 
-				fprintf(arquivo, "%s\n", valor_s);
-
+				fprintf(arquivo, "%s ", valor_s);
 			}
 			//caso char
 			else if(!strcmp(tabela.tipo_dado, "char")){
-				fprintf(arquivo, "%s ", &tabela.tipo_dado);
-
 				char valor_c;
-				printf("Insira o valor:\n");
+				printf("Insira o valor da coluna %s:\n", tabela.nome);
 				scanf("%s", &valor_c);
 
-				fprintf(arquivo, "%c\n", valor_c);
-
+				fprintf(arquivo, "%c ", valor_c);
 			}
 			//caso int
 			else if(!strcmp(tabela.tipo_dado, "int")){
-				fprintf(arquivo, "%s ", &tabela.tipo_dado);
-
 				int valor_i;
 				do{
-					printf("Insira o valor:\n");
+					printf("Insira o valor da coluna %s:\n", tabela.nome);
 					scanf("%d", &valor_i);
 
-					if(valor_i==valor_chave){
+					if(valor_i<=valor_chave){
 						printf("\nOpa! Conflito de valores.\nA coluna '%s' nao pode ter o mesmo valor da chave primaria! Tente novamente!\n", tabela.nome);
 					}
 
-				} while(valor_i==valor_chave);
+				} while(valor_i<=valor_chave);
 
-				fprintf(arquivo, "%d\n", valor_i);
-
+				fprintf(arquivo, "%d ", valor_i);
 			}
 			//caso float
 			else if(!strcmp(tabela.tipo_dado, "float")){
-				fprintf(arquivo, "%s ", &tabela.tipo_dado);
-
 				float valor_f;
 
 				do{
-					printf("Insira o valor:\n");
+					printf("Insira o valor da coluna %s:\n", tabela.nome);
 					scanf("%f", &valor_f);
 
-					if(valor_f==valor_chave){
+					if(valor_f<=valor_chave){
 						printf("\nOpa! Conflito de valores.\nA coluna '%s' nao pode ter o mesmo valor da chave primaria! Tente novamente!\n", tabela.nome);
 					}
 
-				} while(valor_f==valor_chave);
+				} while(valor_f<=valor_chave);
 
-				fprintf(arquivo, "%f\n", valor_f);
-
+				fprintf(arquivo, "%f ", valor_f);
 			}
 			//caso double
 			else if(!strcmp(tabela.tipo_dado, "double")){
-				fprintf(arquivo, "%s ", &tabela.tipo_dado);
-
 				double valor_d;
 
 				do{
-					printf("Insira o valor:\n");
+					printf("Insira o valor da coluna %s:\n", tabela.nome);
 					scanf("%lf", &valor_d);
 
-					if(valor_d==valor_chave){
+					if(valor_d<=valor_chave){
 						printf("\nOpa! Conflito de valores.\nA coluna '%s' nao pode ter o mesmo valor da chave primaria! Tente novamente!\n", tabela.nome);
 					}
 
-				} while(valor_d==valor_chave);
+				} while(valor_d<=valor_chave);
 
-				fprintf(arquivo, "%lf\n", valor_d);
-
+				fprintf(arquivo, "%lf ", valor_d);
 			} else {
 				printf("Opa! Erro ao tentar inserir um tipo inválido!\n");
-				fprintf(arquivo, "NULL, NULL\n");
-				condicao = 0;
+				fprintf(arquivo, "NULL ");
 			}
 
+			//add mais colunas
 			printf("\nAdicionar mais uma coluna? [1-sim 0-não]\n");
 			scanf("%d", &condicao);
 
