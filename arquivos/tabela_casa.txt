@@ -1,5 +1,0 @@
-id int 180
-rua string salgado
-numero int 130
-preco int 1800
-numerocasa int 81
