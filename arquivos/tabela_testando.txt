@@ -1,0 +1,7 @@
+id nome sexo 
+1 ranna f 
+2 NULL m 
+3 gustavo m 
+4 tiago NULL 
+5 NULL NULL 
+6 rejane f 
