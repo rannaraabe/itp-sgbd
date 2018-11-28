@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <dirent.h>  //diretorios
 
-//tipo de dado tabela
+//struct referente às colunas
 typedef struct{
 	char nome[15];
 	char tipo_dado[7];
@@ -44,11 +44,13 @@ int criar_tabela(FILE *arq){
 		printf("O valor da chave eh AI\n");
 		fprintf(arquivo, "%s ", chave_primaria);
 		
+		//colunas
 		printf("\nDeseja inserir quantas colunas? ");
 		scanf("%d", &q_colunas);
 
+		printf("Nome coluna 1: %s\n", chave_primaria);
 		for(int i=1; i<=q_colunas; i++){
-			printf("Nome coluna %d: ", i);
+			printf("Nome coluna %d: ", i+1);
 			scanf("%s", tabela.nome);
 			fprintf(arquivo, "%s ", tabela.nome);
 		}
@@ -59,16 +61,16 @@ int criar_tabela(FILE *arq){
 
 		//adicionando colunas
 		for(int i=1; i<=q_colunas; i++){
-			printf("\nColuna %d: \n", i);
+			printf("\nColuna %d: \n", i+1);
 
 			//tipo de dado: para conferir se o usuario vai inserir o tipo certo
-			printf("Tipo de dado para o valor: ");
+			printf("Tipo de dado: ");
 			scanf("%s", &tabela.tipo_dado);
 			//caso string
 			if(!strcmp(tabela.tipo_dado, "string")){
 				//quando sair do if, o vetor eh desalocado
 				char valor_s[25];
-				printf("Insira o valor sem espaços: ");
+				printf("Valor sem espaços: ");
 				scanf("%s", valor_s);
 
 				fprintf(arquivo, "%s ", valor_s);
@@ -76,7 +78,7 @@ int criar_tabela(FILE *arq){
 			//caso char
 			else if(!strcmp(tabela.tipo_dado, "char")){
 				char valor_c;
-				printf("Insira o valor: ");
+				printf("Valor: ");
 				scanf("%s", &valor_c);
 
 				fprintf(arquivo, "%c ", valor_c);
@@ -85,7 +87,7 @@ int criar_tabela(FILE *arq){
 			else if(!strcmp(tabela.tipo_dado, "int")){
 				int valor_i;
 				do{
-					printf("Insira o valor: ");
+					printf("Valor: ");
 					scanf("%d", &valor_i);
 
 					if(valor_i<=valor_chave){
@@ -100,7 +102,7 @@ int criar_tabela(FILE *arq){
 			else if(!strcmp(tabela.tipo_dado, "float")){
 				float valor_f;
 				do{
-					printf("Insira o valor: ");
+					printf("Valor: ");
 					scanf("%f", &valor_f);
 
 					if(valor_f<=valor_chave){
@@ -115,7 +117,7 @@ int criar_tabela(FILE *arq){
 			else if(!strcmp(tabela.tipo_dado, "double")){
 				double valor_d;
 				do{
-					printf("Insira o valor:");
+					printf("Valor:");
 					scanf("%lf", &valor_d);
 
 					if(valor_d<=valor_chave){
@@ -126,15 +128,14 @@ int criar_tabela(FILE *arq){
 
 				fprintf(arquivo, "%lf ", valor_d);
 			} else {
-				printf("Opa! Erro ao tentar inserir um tipo inválido!\n");
+				printf("Opa! Erro ao tentar inserir um tipo inválido! Valor salvo por padrao: NULL\n");
 				fprintf(arquivo, "NULL ");
 			}
 		}
 	}
 
 	system("clear");
-
-	printf("Êêê! A %s foi criada com sucesso!\n", nome_arquivo);
+	printf("\nÊêê! A %s foi criada com sucesso!\n", nome_arquivo);
 
 	fclose(arquivo);
 	return 1;
@@ -143,7 +144,7 @@ int criar_tabela(FILE *arq){
 //funcao listar tabelas
 int listar_tabelas(FILE *arq){
 	//declarando variaveis
-	int controle = 0;
+	int cont = 0;
 	struct dirent *entrada;
 	DIR *diretorio;
 
@@ -160,17 +161,17 @@ int listar_tabelas(FILE *arq){
 
 	//lendo os arquivos do diretorio e printando na tela
 	while(entrada = readdir(diretorio)){
-		controle++;
-		if(controle>=1){
+		cont++;
+		if(cont>=1){
 			printf("%s\n", entrada->d_name);
 		}
 	}
-
-	if(controle==2){
+	
+	//se a quantidade de arquivos no diretorio for 2 significa que tem salvo . e .. portanto nao ha tabelas cadastradas
+	if(cont==2){
 		printf("\nNão há tabelas no sistema!\nCadastre na opção 1!\n");
 	}
 
 	closedir(diretorio);
 	return 1;
 }
-
