@@ -12,20 +12,15 @@ typedef struct{
 
 //funcao criar uma nova linha em uma tabela especifica
 int criar_linha_tabela(FILE *arq){
-	int condicao = 1;
+	int condicao = 1, valor_chave = 0, q_colunas = 0;
 	dadosTabela tabela;
-	int valor_chave = 0;
 
-	char c, letra = '\n';
-	int vezes = 0;
-
-	//variaveis para a chave na hora de pegar o valor do arquivo e comparar
-	char nomeChave[15], tipoChave[4];
-	int valorChave;
+	char c, quebra = '\n'; 
+	int linhas = 0;
 
 	//nome tabela
 	char nome_tabela[20];
-	printf("\nInsira o nome da tabela: \n");
+	printf("\nInsira o nome da tabela: ");
 	scanf("%s", nome_tabela);
 
 	//nome padrao para o arquivo da tabela
@@ -46,125 +41,113 @@ int criar_linha_tabela(FILE *arq){
 	} else {
 		//pegando o ultimo valor da chave para incrementar		
 		while(fread(&c, sizeof(char), 1, arquivo)) {
-			if(c == letra) {
-				vezes++;
+			if(c == quebra) {
+				linhas++;
 			}
 		}
 
-		//diminuindo as duas primeiras linhas do arquivo
-		vezes = vezes-2;
-		valor_chave = vezes;
+		//valor de chave recebe a quantidade de linhas da tabela para incrementar o valor correto
+		if(valor_chave>2){
+			valor_chave = linhas-1;
+		} else {
+			valor_chave = linhas;
+		}
 
-		while(condicao!=0){
+		printf("Quantas colunas a tabela possui? ");
+		scanf("%d", &q_colunas);
+
+		do{
 			//chave primaria da tabela
 			valor_chave++;
-			fprintf(arquivo, "%d ", valor_chave);
+			fprintf(arquivo, "\n%d ", valor_chave);
 
-			//nome da coluna
-			printf("\nInsira o nome da nova linha: \n");			
-			scanf("%s", &tabela.nome);
-			fprintf(arquivo, "%s ", &tabela.nome);
+			for(int i=1; i<=q_colunas; i++){
+				printf("\n\nColuna %d: \n", i);
+			
+				//tipo de dado: para conferir se o usuario vai inserir o tipo certo
+				printf("Tipo de dado para o valor: ");
+				scanf("%s", &tabela.tipo_dado);
+				//caso string
+				if(!strcmp(tabela.tipo_dado, "string")){
+					//quando sair do if, o vetor eh desalocado
+					char valor_s[25];
+					printf("Insira o valor sem espaços: ");
+					scanf("%s", valor_s);
 
-			//tipo do dado
-			printf("Insira o tipo de dado: \n");
-			scanf("%s", &tabela.tipo_dado);
+					fprintf(arquivo, "%s ", valor_s);
+				}
+				//caso char
+				else if(!strcmp(tabela.tipo_dado, "char")){
+					char valor_c;
+					printf("Insira o valor: ");
+					scanf("%s", &valor_c);
 
-			//caso string
-			if(!strcmp(tabela.tipo_dado, "string")){
-				fprintf(arquivo, "%s ", &tabela.tipo_dado);
+					fprintf(arquivo, "%c ", valor_c);
+				}
+				//caso int
+				else if(!strcmp(tabela.tipo_dado, "int")){
+					int valor_i;
+					do{
+						printf("Insira o valor: ");
+						scanf("%d", &valor_i);
 
-				//quando sair do if, o vetor eh desalocado
-				char valor_s[25];               
-				printf("Insira o valor: *sem espacos!*\n");
-				scanf("%s", valor_s);
+						if(valor_i<=valor_chave){
+							printf("\nOpa! Conflito de valores. Nao eh possivel inserir o mesmo valor de uma chave! Tente novamente!\n");
+						}
 
-				fprintf(arquivo, "%s\n", valor_s);
+					} while(valor_i<=valor_chave);
+
+					fprintf(arquivo, "%d ", valor_i);
+				}
+				//caso float
+				else if(!strcmp(tabela.tipo_dado, "float")){
+					float valor_f;
+					do{
+						printf("Insira o valor: ");
+						scanf("%f", &valor_f);
+
+						if(valor_f<=valor_chave){
+							printf("\nOpa! Conflito de valores. Nao eh possivel inserir o mesmo valor de uma chave! Tente novamente!\n");
+						}
+
+					} while(valor_f<=valor_chave);
+
+					fprintf(arquivo, "%f ", valor_f);
+				}
+				//caso double
+				else if(!strcmp(tabela.tipo_dado, "double")){
+					double valor_d;
+					do{
+						printf("Insira o valor:");
+						scanf("%lf", &valor_d);
+
+						if(valor_d<=valor_chave){
+							printf("\nOpa! Conflito de valores. Nao eh possivel inserir o mesmo valor de uma chave! Tente novamente!\n");
+						}
+
+					} while(valor_d<=valor_chave);
+
+					fprintf(arquivo, "%lf ", valor_d);
+				} else {
+					printf("Opa! Erro ao tentar inserir um tipo inválido!\n");
+					fprintf(arquivo, "NULL ");
+				}								
 			}
-			//caso char
-			else if(!strcmp(tabela.tipo_dado, "char")){
-				fprintf(arquivo, "%s ", &tabela.tipo_dado);
-
-				char valor_c;
-				printf("Insira o valor:\n");
-				scanf("%s", &valor_c);
-
-				fprintf(arquivo, "%c\n", valor_c);
-			} 
-			//caso int
-			else if(!strcmp(tabela.tipo_dado, "int")){
-				fprintf(arquivo, "%s ", &tabela.tipo_dado);
-
-				int valor_i;
-
-				do{
-					printf("Insira o valor:\n");
-					scanf("%d", &valor_i);
-					
-					if(valor_i<=valor_chave){
-						printf("\nOpa! Nao pode inserir um valor de chave! Tente novamente\n");
-					}
-
-
-				} while(valor_i<=valor_chave);
-
-				fprintf(arquivo, "%d\n", valor_i);
-
-			}
-			//caso float       
-			else if(!strcmp(tabela.tipo_dado, "float")){
-				fprintf(arquivo, "%s ", &tabela.tipo_dado);
-
-				float valor_f;
-				
-				do{
-					printf("Insira o valor:\n");
-					scanf("%f", &valor_f);
-
-					if(valor_f<=valor_chave){
-                                                printf("\nOpa! Nao pode inserir um valor de chave! Tente novamente\n");
-                                        }
-
-				} while(valor_f<=valor_chave);
-
-				fprintf(arquivo, "%f\n", valor_f);
-
-			}
-			//caso double
-			else if(!strcmp(tabela.tipo_dado, "double")){
-				fprintf(arquivo, "%s ", &tabela.tipo_dado);
-
-				double valor_d;
-
-				do{
-					printf("Insira o valor:\n");
-					scanf("%lf", &valor_d);
-
-					if(valor_d<=valor_chave){
-                                                printf("\nOpa! Nao pode inserir um valor de chave! Tente novamente\n");
-                                        }
-
-				} while(valor_d<=valor_chave);
-
-				fprintf(arquivo, "%lf\n", valor_d);
-
-			} else {
-				printf("Opa! Erro ao tentar inserir um tipo invalido!\n");
-				fprintf(arquivo, "NULL, NULL\n");
-				condicao = 0;
-			}
-
-			printf("\nAdicionar mais uma coluna? [1-sim 0-não]\n");
+			//add mais colunas
+			printf("\nAdicionar mais uma tupla? [1-sim 0-não]\n");
 			scanf("%d", &condicao);
 
 			if(condicao!=0 && condicao!=1){
-				printf("Opa! Opção invalida!");
+				printf("Opa! Opção inválida!");
 				condicao = 0;
 			}
 
-		}
+		} while(condicao!=0);
 	}
 
 	system("clear");
+
+	printf("Êêê! A %s foi atualizada com sucesso!\n", nome_arquivo);
 
 	fclose(arquivo);
 	return 1;
@@ -175,7 +158,7 @@ int criar_linha_tabela(FILE *arq){
 int listar_dados_tabela(FILE *arq){
 	//nome tabela
 	char nome_tabela[20];
-	printf("\nInsira o nome da tabela: \n");
+	printf("\nInsira o nome da tabela: ");
 	scanf("%s", nome_tabela);
 
 	//nome padrao para o arquivo da tabela
@@ -200,8 +183,9 @@ int listar_dados_tabela(FILE *arq){
 		return 0;
 	} else {
 		system("clear");
-		printf("\n%s:\n\n", nome_arquivo);
+		printf("\n%s: \n\n", nome_arquivo);
 		system(comando);
+		printf("\n");
 	}
 
 	return 1;
