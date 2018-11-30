@@ -132,6 +132,7 @@ int criar_tabela(FILE *arq){
 				fprintf(arquivo, "NULL ");
 			}
 		}
+		fprintf(arquivo, "\n");
 	}
 
 	system("clear");

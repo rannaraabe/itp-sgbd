@@ -70,7 +70,7 @@ int criar_linha_tabela(FILE *arq){
                                 resultado = realloc(resultado, (tamanho+1)*sizeof(char**));
                                 resultado[tamanho++] = temp;
                         }
-
+			//break para parar quando terminar de ler e alocar a primeira linha que eh a linha das colunas
                         break;
                 }	
 
@@ -98,7 +98,7 @@ int criar_linha_tabela(FILE *arq){
 			}
 		
 			//escrevendo chave primaria na tabela
-			fprintf(arquivo, "\n%d ", ids[cont-2]+1);
+			fprintf(arquivo, "%d ", ids[cont-2]+1);
 
 			//pedindo os valores referentes às colunas das tabelas
 			for(int i=1; i<=q_colunas-1; i++){
@@ -106,7 +106,7 @@ int criar_linha_tabela(FILE *arq){
 
 				//tipo de dado: para conferir se o usuario vai inserir o tipo certo
 				printf("Tipo de dado: ");
-				scanf("%s", &tabela.tipo_dado);
+				scanf("%s", &tabela.tipo_dado);	
 				//caso string
 				if(!strcmp(tabela.tipo_dado, "string")){
 					//quando sair do if, o vetor eh desalocado
@@ -168,11 +168,15 @@ int criar_linha_tabela(FILE *arq){
 					} while(valor_d<=valor_chave);
 
 					fprintf(arquivo, "%lf ", valor_d);
+				//caso default, salva no aquivo um valor null
 				} else {
 					printf("Opa! Erro ao tentar inserir um tipo inválido! Valor salvo por padrao: NULL\n");
 					fprintf(arquivo, "NULL ");
-				}								
+				}
+
+				fprintf(arquivo, "\n");	
 			}
+
 			//para add mais colunas
 			printf("\nAdicionar mais uma tupla? [1-sim 0-não]\n");
 			scanf("%d", &condicao);
@@ -223,7 +227,6 @@ int listar_dados_tabela(FILE *arq){
 		system("clear");
 		printf("\n%s: \n\n", nome_arquivo);
 		system(comando);
-		printf("\n");
 	}
 
 	return 1;

@@ -6,6 +6,7 @@
 #include "bibliotecas/funcoes-check2.h"
 #include "bibliotecas/funcoes-check3.h"
 #include "bibliotecas/funcoes-check4.h"
+#include "bibliotecas/funcoes-extra.h"
 
 int main(void){
 	int op_menu;
@@ -16,14 +17,15 @@ int main(void){
 	do{
 		//menu de navegacao para o usuario		
 		printf("\n");
-		printf("=================SGDB ITP=================\n");
+		printf("=============== MENU SGBD ================\n");
 		printf("| 1 - Criar tabela                       |\n");
 		printf("| 2 - Listar tabelas                     |\n");
 		printf("| 3 - Criar nova linha na tabela         |\n");
 		printf("| 4 - Listar dados de uma tabela         |\n");
-		printf("| 5 - Pesquisar valor em uma tabela      |\n");
-		printf("| 6 - Apagar valor de uma tabela         |\n");
-		printf("| 7 - Apagar uma tabela                  |\n");
+		printf("| 5 - Apagar valor de uma tabela         |\n");
+		printf("| 6 - Apagar uma tabela			 |\n");
+		printf("| 7 - Renomear uma tabela                |\n");
+		printf("| 8 - Truncar tabela			 |\n");
 		printf("| 0 - Encerrar                           |\n");
 		printf("==========================================\n");
 		printf("\n");
@@ -50,16 +52,21 @@ int main(void){
 			//listar dados de uma tabela
 			listar_dados_tabela(arquivo);
 		} else if(op_menu==5){
-			//pesquisar valor em uma tabela
-		} else if(op_menu==6){
 			//apagar valor em uma tabela
-		} else if(op_menu==7){
+			apagar_linha(arquivo);
+		} else if(op_menu==6){
 			//apagar uma tabela
 			apagar_tabela(arquivo);
+		} else if(op_menu==7){
+			//renomear o nome de uma tabela
+			renomear_tabela(arquivo);
+		} else if(op_menu==8){
+			//truncar tabela
+			limpar_tabela(arquivo);
 		} else {
 			//opcao invalida
-			printf("Ops, opção inválida!\n");
-			op_menu = 0;
+			system("clear");
+			printf("\nOpa, opção inválida!\n");	
 		} 
     
 	} while(op_menu!=0);
