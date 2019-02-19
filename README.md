@@ -1,7 +1,7 @@
 # SGBD
 SGBD é um Sistema de Gerenciamento de Banco de Dados simplificado baseado no modelo relacional.
 
-*O objetivo do projeto é criar um SGBD para explorar os conceitos abordados nas disciplinas ITP/PTP.*
+*O objetivo do projeto é criar um SGBD para explorar os conceitos abordados nas disciplinas ITP/PTP ministrada pela professora [Márjory Cristiany](https://sigaa.ufrn.br/sigaa/public/docente/portal.jsf?siape=2524467).*
 
 ## Funções do SGBD:
 O SBGD realiza as seguintes operações:
