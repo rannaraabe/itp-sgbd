@@ -20,6 +20,6 @@ O SBGD realiza as seguintes operações:
 7. Apagar uma tabela
 
 ## Execução
-Para o SGBD funcionar basta excecutar no terminal linux o seguinte comando:
+Para executar o SGBD, execute no terminal linux o seguinte comando:
 
 `<gcc main.c bibliotecas/funcoes-check1.c bibliotecas/funcoes-check2.c bibliotecas/funcoes-check3.c bibliotecas/funcoes-check4.c -o ex -g -W>`
